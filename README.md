@@ -23,9 +23,9 @@ The **74HC595** is a high-speed CMOS 8-bit serial-in, parallel-out shift registe
 
 | 74HC595 Pin | Function | Arduino Connection | Description |
 |-------------|----------|-------------------|-------------|
-| Pin 14 (DS) | Serial Data Input | Pin 2 | Data bit input |
-| Pin 11 (SHCP) | Shift Clock | Pin 3 | Clock for shifting data |
-| Pin 12 (STCP) | Storage Clock | Pin 4 | Clock for latching outputs |
+| Pin 14 (DS) | Serial Data Input | Pin 12 | Data bit input |
+| Pin 11 (SHCP) | Shift Clock | Pin 13 | Clock for shifting data |
+| Pin 12 (STCP) | Storage Clock | Pin 14 | Clock for latching outputs |
 | Pin 13 (OE) | Output Enable | GND | Always enable outputs |
 | Pin 10 (SRCLR) | Master Reset | 5V | Disable reset (always high) |
 | Pin 16 (VCC) | Power Supply | 5V | Positive power supply |
@@ -43,7 +43,7 @@ The **74HC595** is a high-speed CMOS 8-bit serial-in, parallel-out shift registe
 
 ### Wiring Instructions:
 1. Connect 74HC595 power pins (VCC to 5V, GND to GND)
-2. Connect control pins (DS→Pin 2, SHCP→Pin 3, STCP→Pin 4)
+2. Connect control pins (DS→Pin 12, SHCP→Pin 13, STCP→Pin 14)
 3. Connect OE to GND and SRCLR to 5V
 4. Connect LEDs with 220Ω resistors to output pins Q0-Q7
 5. Upload the Arduino code to your microcontroller
