@@ -2,9 +2,9 @@
  * 74HC595 Shift Register - 8 LED Controller
  * 
  * Pin Connections:
- * 74HC595 Pin 14 (DS/SER) -> Arduino Pin 2 (Data)
- * 74HC595 Pin 11 (SHCP)   -> Arduino Pin 3 (Clock)
- * 74HC595 Pin 12 (STCP)   -> Arduino Pin 4 (Latch)
+ * 74HC595 Pin 14 (DS/SER) -> Arduino Pin 12 (Data)
+ * 74HC595 Pin 11 (SHCP)   -> Arduino Pin 13 (Clock)
+ * 74HC595 Pin 12 (STCP)   -> Arduino Pin 14 (Latch)
  * 74HC595 Pin 13 (OE)     -> GND (Output Enable - always on)
  * 74HC595 Pin 10 (SRCLR)  -> 5V (Master Reset - disabled)
  * 74HC595 Pin 16 (VCC)    -> 5V
@@ -14,9 +14,9 @@
  */
 
 // Pin definitions
-const int dataPin = 2;   // DS (Serial Data Input)
-const int clockPin = 3;  // SHCP (Shift Register Clock)
-const int latchPin = 4;  // STCP (Storage Register Clock)
+const int dataPin = 12;   // DS (Serial Data Input)
+const int clockPin = 13;  // SHCP (Shift Register Clock)
+const int latchPin = 14;  // STCP (Storage Register Clock)
 
 void setup() {
   // Set pins as outputs
