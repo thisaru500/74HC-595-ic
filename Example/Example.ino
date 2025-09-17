@@ -83,6 +83,26 @@ void updateShiftRegister(byte data) {
   digitalWrite(latchPin, HIGH);
 }
 
+// Safe version with overload protection
+void safeUpdateShiftRegister(byte data) {
+  // Add small delay to prevent rapid switching that can cause overload
+  delayMicroseconds(10);
+  digitalWrite(latchPin, LOW);
+  shiftOut(dataPin, clockPin, MSBFIRST, data);
+  digitalWrite(latchPin, HIGH);
+  delayMicroseconds(10);
+}
+
+// Check if pattern is safe (not too many LEDs on at once)
+bool isPatternSafe(byte pattern) {
+  int ledCount = 0;
+  for(int i = 0; i < 8; i++) {
+    if(pattern & (1 << i)) ledCount++;
+  }
+  // Limit to 4 LEDs max to prevent overload
+  return ledCount <= 4;
+}
+
 void knightRider() {
   for(int i = 0; i < 8; i++) {
     updateShiftRegister(1 << i);

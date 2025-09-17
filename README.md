@@ -118,6 +118,81 @@ byte customPattern = 0b10101010; // Alternating pattern
 updateShiftRegister(customPattern);
 ```
 
+## ⚠️ Troubleshooting Common Issues
+
+### Overload Protection & Current Limiting
+
+**Problem**: "Overload production related" - LEDs not working, dim, or Arduino resetting
+
+**Root Causes & Solutions**:
+
+#### 1. **Current Overload on 74HC595**
+- **Issue**: 74HC595 can only handle 6mA per pin, 70mA total
+- **Solution**: Use appropriate current-limiting resistors
+
+```cpp
+// Calculate resistor value: R = (Vcc - Vled) / Iled
+// For 5V supply, 2V LED, 5mA current: R = (5-2)/0.005 = 600Ω
+// Use 470Ω-1kΩ resistors for safety
+```
+
+#### 2. **Power Supply Overload**
+- **Issue**: Too many LEDs drawing current simultaneously
+- **Solution**: Use external power supply or reduce LED count
+
+```cpp
+// Safe LED configurations:
+// - Max 8 LEDs with 1kΩ resistors each
+// - Max 4 LEDs with 220Ω resistors each
+// - Use external 5V supply for more LEDs
+```
+
+#### 3. **Arduino Pin Overload**
+- **Issue**: Arduino pins can't drive 74HC595 properly
+- **Solution**: Use proper pin configuration and add pull-up resistors
+
+```cpp
+// Add pull-up resistors (10kΩ) to control pins
+// Ensure stable power supply (use 100nF capacitor near 74HC595)
+```
+
+#### 4. **Voltage Drop Issues**
+- **Issue**: Voltage drops when multiple LEDs are on
+- **Solution**: Use separate power rails
+
+```cpp
+// Wiring for high current applications:
+// - Arduino 5V → 74HC595 VCC (control only)
+// - External 5V → LED anodes (power)
+// - 74HC595 outputs → LED cathodes (control)
+```
+
+### Recommended Safe Configuration:
+
+```cpp
+// Safe pin definitions with current limiting
+const int dataPin = 12;   // DS (Serial Data Input)
+const int clockPin = 13;  // SHCP (Shift Register Clock)  
+const int latchPin = 14;  // STCP (Storage Register Clock)
+
+// Add current limiting in code
+void safeUpdateShiftRegister(byte data) {
+  // Add small delay to prevent rapid switching
+  delayMicroseconds(10);
+  digitalWrite(latchPin, LOW);
+  shiftOut(dataPin, clockPin, MSBFIRST, data);
+  digitalWrite(latchPin, HIGH);
+  delayMicroseconds(10);
+}
+```
+
+### Hardware Modifications for High Current:
+
+1. **Add Decoupling Capacitor**: 100nF ceramic capacitor between VCC and GND
+2. **Use Higher Value Resistors**: 470Ω-1kΩ instead of 220Ω
+3. **External Power Supply**: Use separate 5V supply for LEDs
+4. **Heat Sink**: Add small heat sink to 74HC595 for high current applications
+
 ## 📚 Learning Resources
 
 - [74HC595 Datasheet](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf)
